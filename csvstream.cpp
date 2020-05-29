@@ -14,12 +14,12 @@ using namespace std;
 csvstream::csvstream(const string& fname) : is {fname}, ss("") {}
 
 csvstream &csvstream::operator>>(std::string &s) {
-    if (ss.str() == "") {
+    if (!getline(ss, s, ',')) {
         string str;
         getline(is, str);
         ss.clear();
         ss.str(str);
-    } else {
         getline(ss, s, ',');
     }
+    return *this;
 }

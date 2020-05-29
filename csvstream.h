@@ -9,6 +9,7 @@
 #ifndef csvstream_h
 #define csvstream_h
 
+#include <fstream>
 #include <iostream>
 #include <string>
 #include <sstream>
@@ -16,13 +17,17 @@
 class csvstream {
     
     std::ifstream is;
-    std::sstream ss;
+    std::stringstream ss;
     
 public:
     
     csvstream(const std::string& fname);
     
     csvstream &operator>>(std::string &s);
+    
+    operator bool() {
+        return is || ss;
+    }
     
 };
 

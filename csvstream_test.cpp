@@ -7,3 +7,15 @@
 //
 
 #include <stdio.h>
+#include "csvstream.h"
+
+using namespace std;
+
+int main() {
+    csvstream csv("csv-test-1.txt");
+    string s;
+    while (csv >> s) {
+        cout << s << endl;
+    }
+    return 0;
+}
