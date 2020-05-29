@@ -62,6 +62,10 @@ int main(int argc, char *argv[]) {
         cout << "- " << loc.type;
         if (loc.dine_in) cout << "- Dine in" << endl;
         if (loc.take_out) cout << "- Take out" << endl;
+        cout << "- Rating: " << loc.rating / 10 << "." << loc.rating % 10 << endl;
+        cout << "- ";
+        for (int i = 0; i < loc.rating; ++i) cout << "$";
+        cout << endl;
     }
 
     cout << "Hello world" << endl;
