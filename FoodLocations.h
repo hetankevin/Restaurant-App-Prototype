@@ -46,6 +46,10 @@ public:
     
     FoodLocations();
     
+    FoodPlace &operator[](int x) {
+        return places[x];
+    }
+    
     // Adds a place to the places vector
     void addPlace(const FoodPlace &fp);
     
