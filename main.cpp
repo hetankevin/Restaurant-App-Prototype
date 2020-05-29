@@ -20,30 +20,35 @@
 #include <vector>
 
 #include "FoodLocations.h"
+#include "csvstream.h"
 
 using namespace std;
 
+csvstream &operator>>(csvstream &cs, FoodPlace &f) {
+    string str;
+    cs >> str; // index
+    cs >> f.name;
+    cs >> str >> str >> str; // id, lat, long
+    cs >> str; // rating
+    f.rating = 10 * stod(str);
+    // TODO: Types, Price
+    return cs;
+}
+
 int main(int argc, char *argv[]) {
 
-    ifstream ifs;
     string filename;
     cout << "Enter a filename" << '\n';
     cin >> filename;
-    ifs.open(filename);
-    if (!ifs.is_open()) exit(1);
+    csvstream ifs(filename);
 
     FoodLocations locs;
 
     string name, type, rating, price, dineIn, takeOut;
 
-    while (ifs >> name >> type >> rating >> price >> dineIn >> takeOut) {
-        int r = stod(rating) * 10;
-        int p = (int) price.size();
-        bool dine = (dineIn == "Yes") ? true : false;
-        bool take = (takeOut == "Yes") ? true : false;
-        FoodPlace f(name, type, r, p, dine, take);
-        locs.addPlace(f);
-    }
+    FoodPlace f;
+    
+    while (ifs >> f) locs.addPlace(f);
 
     cout << "What's your budget? Enter up to 4 $" << '\n';
     string budget;

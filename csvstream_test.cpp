@@ -12,7 +12,7 @@
 using namespace std;
 
 int main() {
-    csvstream csv("csv-test-1.txt");
+    csvstream csv("annarbor.csv");
     string s;
     while (csv >> s) {
         cout << s << endl;
