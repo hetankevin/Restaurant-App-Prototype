@@ -37,8 +37,8 @@ int main(int argc, char *argv[]) {
     string name, type, rating, price, dineIn, takeOut;
 
     while (ifs >> name >> type >> rating >> price >> dineIn >> takeOut) {
-        double r = stod(rating) * 10;
-        int p = price.size();
+        int r = stod(rating) * 10;
+        int p = (int) price.size();
         bool dine = (dineIn == "Yes") ? true : false;
         bool take = (takeOut == "Yes") ? true : false;
         FoodPlace f(name, type, r, p, dine, take);
@@ -49,7 +49,20 @@ int main(int argc, char *argv[]) {
     string budget;
     cin >> budget;
 
+    int budget_requirement = (int) budget.size();
     
+    vector<int> pltet = locs.priceLTEqualTo(budget_requirement);
+    bool p1 = false, p2 = false;
+    int idx = 0;
+    
+    while (!p1 || !p2) {
+        cout << "Suggested location: " << endl;
+        FoodPlace loc = locs[pltet[idx]];
+        cout << loc.name << endl;
+        cout << "- " << loc.type;
+        if (loc.dine_in) cout << "- Dine in" << endl;
+        if (loc.take_out) cout << "- Take out" << endl;
+    }
 
     cout << "Hello world" << endl;
     return 0;
