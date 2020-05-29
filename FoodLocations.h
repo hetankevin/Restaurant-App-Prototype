@@ -60,6 +60,8 @@ public:
     std::vector<int> ratingGreaterThan(int num);
     
     std::vector<int> priceLTEqualTo(int num);
+
+    int size() { return places.size(); }
     
 };
 

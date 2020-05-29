@@ -9,7 +9,7 @@ final_data = []
 coordinates = ['42.2808,-83.7430']
 keywords = ['restaurant']
 radius = '1000'
-api_key = 'AIzaSyCjJLkTKGdauHGUkzoeEoyS0ZoD4wUnlx8' #insert your Places API
+api_key = '' #insert your Places API
 
 for coordinate in coordinates:
     for keyword in keywords:
@@ -47,13 +47,6 @@ while True:
 labels = ['Place Name','Place ID', 'Latitude', 'Longitude', 'Ratings', 'Reviews', 'Types', 'Vicinity', 'Price Level', 'Photos', 'Status', 'Temp Closed']
 
 export_dataframe_1_medium = pd.DataFrame.from_records(final_data, columns=labels)
-<<<<<<< HEAD
-<<<<<<< HEAD
-export_dataframe_1_medium.to_csv('export_dataframe_1_medium.csv')
-=======
-export_dataframe_1_medium.to_csv('annarbor.csv')
->>>>>>> 24824fd0fe1d6ca31ed189e182f40362bed60fa5
-=======
+
 export_dataframe_1_medium.to_csv('annarbor.csv')
 
->>>>>>> 6428ae74c3810cd4e66d908bffbf7cc6829178f1

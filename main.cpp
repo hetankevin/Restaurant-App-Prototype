@@ -54,21 +54,32 @@ int main(int argc, char *argv[]) {
     vector<int> pltet = locs.priceLTEqualTo(budget_requirement);
     bool p1 = false, p2 = false;
     int idx = 0;
-    
+    int count = 0;
     while (!p1 || !p2) {
-        cout << "Suggested location: " << endl;
+        cout << "Suggested location: " << '\n';
         FoodPlace loc = locs[pltet[idx]];
-        cout << loc.name << endl;
+        cout << loc.name << '\n';
         cout << "- " << loc.type;
-        if (loc.dine_in) cout << "- Dine in" << endl;
-        if (loc.take_out) cout << "- Take out" << endl;
-        cout << "- Rating: " << loc.rating / 10 << "." << loc.rating % 10 << endl;
+        if (loc.dine_in) cout << "- Dine in" << '\n';
+        if (loc.take_out) cout << "- Take out" << '\n';
+        cout << "- Rating: " << loc.rating / 10 << "." << loc.rating % 10 << '\n';
         cout << "- ";
         for (int i = 0; i < loc.rating; ++i) cout << "$";
-        cout << endl;
+        cout << '\n';
+
+        char c1, c2;
+        cout << "Person 1, do you want to eat here? Type Y or N." << endl;
+        cin >> c1;
+        p1 = (c1 == 'Y');
+        cout << "Person 2, do you want to eat here? Type Y or N." << endl;
+        cin >> c2;
+        p2 = (c2 == 'Y');
+        ++count;
+        if (count % 10 == 0) cout << "Consider trading in your partner." << endl;
+        if (!p1 || !p2) ++idx %= locs.size();
     }
 
-    cout << "Hello world" << endl;
+    cout << "You're going to " << locs[pltet[idx]].name << ". Enjoy your meal!" << endl;
     return 0;
 
 }

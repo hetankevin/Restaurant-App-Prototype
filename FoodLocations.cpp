@@ -7,6 +7,7 @@
 //
 
 #include <stdio.h>
+#include <algorithm>
 #include "FoodLocations.h"
 
 using namespace std;
@@ -58,3 +59,4 @@ vector<int> FoodLocations::priceLTEqualTo(int num) {
     });
     return pl;
 }
+
