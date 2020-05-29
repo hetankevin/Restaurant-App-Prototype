@@ -32,6 +32,8 @@ int main(int argc, char *argv[]) {
     ifs.open(filename);
     if (!ifs.is_open()) exit(1);
 
+    FoodLocations locs;
+
     string name, type, rating, price, dineIn, takeOut;
 
     while (ifs >> name >> type >> rating >> price >> dineIn >> takeOut) {
@@ -39,15 +41,14 @@ int main(int argc, char *argv[]) {
         int p = price.size();
         bool dine = (dineIn == "Yes") ? true : false;
         bool take = (takeOut == "Yes") ? true : false;
-        FoodPlace f
+        FoodPlace f(name, type, r, p, dine, take);
+        locs.addPlace(f);
     }
 
     cout << "What's your budget? Enter up to 4 $" << '\n';
     string budget;
     cin >> budget;
 
-    FoodLocations locs;
-    l
     
 
     cout << "Hello world" << endl;
