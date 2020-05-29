@@ -23,20 +23,27 @@ int FoodLocations::searchPlace(const string &name) {
     return (namelookup.find(name) != namelookup.end()) ? namelookup[name] : -1;
 }
 
-vector<int> searchTypes(const vector<string> &types) {
+template <typename T>
+void append(vector<T> &original, const vector<T>& add) {
+    for (int x : add) {
+        original.push_back(x);
+    }
+}
+
+vector<int> FoodLocations::searchTypes(const vector<string> &types) {
     vector<int> results;
     for (const string &type : types) {
-        
+        append(results, typelookup[type]);
     }
+    return results;
 }
 
 vector<int> FoodLocations::ratingGreaterThan(int num) {
     vector<int> results;
     int look = 40;
     while (look + 10 >= num) {
-        for (int x : ratinglookup[look]) {
-            results.push_back(x);
-        }
+        append(results, ratinglookup[look]);
+        --look;
     }
     return results;
 }
