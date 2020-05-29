@@ -44,7 +44,7 @@ public:
     
     int searchPlace(const std::string &name);
     
-    std::vector<int> searchType(const std::string &type);
+    std::vector<int> searchTypes(const std::vector<std::string> &types);
     
     std::vector<int> ratingGreaterThan(int num);
     

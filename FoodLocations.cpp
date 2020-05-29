@@ -22,3 +22,15 @@ void FoodLocations::addPlace(const FoodPlace &fp) {
 int FoodLocations::searchPlace(const string &name) {
     return (namelookup.find(name) != namelookup.end()) ? namelookup[name] : -1;
 }
+
+vector<int> FoodLocations::searchType(const string &type) {
+    
+}
+
+vector<int> FoodLocations::ratingGreaterThan(int num) {
+    vector<int>
+}
+
+vector<int> FoodLocations::priceEqualTo(int num) {
+    return pricelookup[num - 1];
+}
