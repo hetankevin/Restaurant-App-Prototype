@@ -49,5 +49,12 @@ vector<int> FoodLocations::ratingGreaterThan(int num) {
 }
 
 vector<int> FoodLocations::priceLTEqualTo(int num) {
-    vector<int> pl = pricelookup[num - 1];
+    vector<int> pl;
+    for (int i = num - 1; num >= 0; --num) {
+        append(pl, pricelookup[i]);
+    }
+    sort(pl.begin(), pl.end(), [this](int a, int b) {
+        return FoodPlaceComp()(places[b], places[a]);
+    });
+    return pl;
 }
