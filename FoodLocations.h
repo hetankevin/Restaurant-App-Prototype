@@ -40,6 +40,7 @@ public:
     
     FoodLocations();
     
+    // Adds a place to the places vector
     void addPlace(const FoodPlace &fp);
     
     int searchPlace(const std::string &name);

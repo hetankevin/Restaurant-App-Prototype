@@ -23,12 +23,22 @@ int FoodLocations::searchPlace(const string &name) {
     return (namelookup.find(name) != namelookup.end()) ? namelookup[name] : -1;
 }
 
-vector<int> FoodLocations::searchType(const string &type) {
-    
+vector<int> searchTypes(const vector<string> &types) {
+    vector<int> results;
+    for (const string &type : types) {
+        
+    }
 }
 
 vector<int> FoodLocations::ratingGreaterThan(int num) {
-    vector<int>
+    vector<int> results;
+    int look = 40;
+    while (look + 10 >= num) {
+        for (int x : ratinglookup[look]) {
+            results.push_back(x);
+        }
+    }
+    return results;
 }
 
 vector<int> FoodLocations::priceEqualTo(int num) {
