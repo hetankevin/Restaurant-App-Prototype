@@ -55,7 +55,7 @@ public:
     
     std::vector<int> ratingGreaterThan(int num);
     
-    std::vector<int> priceEqualTo(int num);
+    std::vector<int> priceLTEqualTo(int num);
     
 };
 

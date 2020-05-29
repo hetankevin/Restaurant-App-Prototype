@@ -48,6 +48,6 @@ vector<int> FoodLocations::ratingGreaterThan(int num) {
     return results;
 }
 
-vector<int> FoodLocations::priceEqualTo(int num) {
-    return pricelookup[num - 1];
+vector<int> FoodLocations::priceLTEqualTo(int num) {
+    vector<int> pl = pricelookup[num - 1];
 }
