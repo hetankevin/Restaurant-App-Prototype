@@ -13,6 +13,8 @@
 #include <string>
 #include <vector>
 
+using namespace std;
+
 struct FoodPlace {
     std::string name;
     std::string type;
@@ -20,6 +22,10 @@ struct FoodPlace {
     int price; // 1 = $, 2 = $$, ..., 4 = $$$$
     bool dine_in;
     bool take_out;
+
+    FoodPlace() {}
+    FoodPlace(string n, string t, int r, int p, bool i, bool o) :
+        name(n), type(t), rating(r), dine_in(i), take_out(o) {}
 };
 
 struct FoodPlaceComp {
