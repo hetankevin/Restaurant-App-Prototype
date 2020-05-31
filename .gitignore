@@ -5,6 +5,10 @@
 # A .gitignore file will tell git which files and directories to ignore and
 # not add to version control.
 
+# Custom
+
+.ipynb_checkpoints/
+
 # Executables and debug files
 main
 *.exe
@@ -376,6 +380,8 @@ paket-files/
 # JetBrains Rider
 .idea/
 *.sln.iml
+*.sln
+*.vcxproj*
 
 # CodeRush
 .cr/
