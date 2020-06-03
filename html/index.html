@@ -1,10 +1,41 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>Stunning Potato</title>
+    <meta charset="UTF-8">
+    <link href="css/styles.css" rel="stylesheet">
 </head>
 <body>
-    <h1>Stunning Potato</h1>
-    <p>Stunning Potato</p>
+    <header>
+        <h1>Stunning Potato</h1>
+        <h3>[insert catchy subtitle here]</h3>
+    </header>
+    <div class="navwrapper">
+        <nav>
+            <a href="#create">Create a meeting</a>
+            <a href="#join">Join a meeting</a>
+            <a href="#about">About us</a>
+        </nav>
+    </div>
+    <section id="create">
+        <h2>Create new meeting</h2>
+        <button onclick="alert('Hello world!')">Click me!</button>
+        <p>Your meeting ID is: STUNN1NG_P0T4T0</p>
+    </section>
+    <section id="join">
+        <h2>Join a meeting</h2>
+        <form>
+            <label for="meetingid">Meeting ID:</label>
+            <input type="text" id="meetingid" name="meetingid"><br/>
+            <input type="submit">
+        </form>
+    </section>
+    <section id="about">
+        <h2>About Us</h2>
+        <p>We're a potato shooting a stun gun, duh.</p>
+    </section>
+    <footer>
+        <small>&copy; 2020 Stunning Potato.</small>
+    </footer>
 </body>
 </html>
