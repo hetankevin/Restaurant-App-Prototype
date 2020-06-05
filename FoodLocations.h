@@ -13,19 +13,17 @@
 #include <string>
 #include <vector>
 
-using namespace std;
-
 struct FoodPlace {
     std::string name;
-    std::string type;
+    std::vector<std::string> types;
     int rating; // 42 = 4.2 rating / 5
     int price; // 1 = $, 2 = $$, ..., 4 = $$$$
     bool dine_in;
     bool take_out;
 
     FoodPlace() {}
-    FoodPlace(string n, string t, int r, int p, bool i, bool o) :
-        name(n), type(t), rating(r), dine_in(i), take_out(o) {}
+    FoodPlace(std::string n, std::vector<std::string> t, int r, int p, bool i, bool o) :
+    name(n), types(t), rating(r), dine_in(i), take_out(o) {}
 };
 
 struct FoodPlaceComp {

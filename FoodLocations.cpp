@@ -17,7 +17,9 @@ FoodLocations::FoodLocations() : places{}, namelookup{}, typelookup{}, ratingloo
 void FoodLocations::addPlace(const FoodPlace &fp) {
     places.push_back(fp);
     namelookup[fp.name] = (int) places.size() - 1;
-    typelookup[fp.type].push_back((int) places.size() - 1);
+    for (auto type : fp.types) {
+        typelookup[type].push_back((int) places.size() - 1);
+    }
 }
 
 int FoodLocations::searchPlace(const string &name) {
