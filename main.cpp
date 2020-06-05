@@ -22,7 +22,6 @@
 #include "FoodLocations.h"
 #include "json.hpp"
 
-using nlohmann::json;
 using namespace std;
 
 int main(int argc, char *argv[]) {
@@ -39,11 +38,13 @@ int main(int argc, char *argv[]) {
 
     string name, type, rating, price, dineIn, takeOut;
 
+    /*
     json j;
     
     while (ifs >> j) {
         locs.addPlace(FoodPlace(j["Place Name"], j["Types"], j["Ratings"], (int) ((double) j["Price Level"] * 10), true, false));
     }
+    */
 
     cout << "What's your budget? Enter up to 4 $" << '\n';
     string budget;
@@ -59,9 +60,11 @@ int main(int argc, char *argv[]) {
         cout << "Suggested location: " << '\n';
         FoodPlace loc = locs[pltet[idx]];
         cout << loc.name << '\n';
+        /*
         cout << "- " << loc.types[0];
         if (loc.dine_in) cout << "- Dine in" << '\n';
         if (loc.take_out) cout << "- Take out" << '\n';
+        */
         cout << "- Rating: " << loc.rating / 10 << "." << loc.rating % 10 << '\n';
         cout << "- ";
         for (int i = 0; i < loc.rating; ++i) cout << "$";

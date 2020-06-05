@@ -48,5 +48,5 @@ labels = ['Place Name','Place ID', 'Latitude', 'Longitude', 'Ratings', 'Reviews'
 
 export_dataframe_1_medium = pd.DataFrame.from_records(final_data, columns=labels)
 
-export_dataframe_1_medium.to_json('annarbor.json')
+export_dataframe_1_medium.to_json('annarbor.json', orient='records')
 

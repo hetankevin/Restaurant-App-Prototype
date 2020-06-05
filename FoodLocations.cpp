@@ -12,7 +12,7 @@
 
 using namespace std;
 
-FoodLocations::FoodLocations() : places{}, namelookup{}, typelookup{}, ratinglookup{41, vector<int>()}, pricelookup{4, vector<int>()} {}
+FoodLocations::FoodLocations() : places{}, namelookup{}, ratinglookup{41, vector<int>()}, pricelookup{4, vector<int>()} {}
 
 void FoodLocations::addPlace(const FoodPlace &fp) {
     places.push_back(fp);
@@ -33,6 +33,7 @@ void append(vector<T> &original, const vector<T>& add) {
     }
 }
 
+/*
 vector<int> FoodLocations::searchTypes(const vector<string> &types) {
     vector<int> results;
     for (const string &type : types) {
@@ -40,6 +41,7 @@ vector<int> FoodLocations::searchTypes(const vector<string> &types) {
     }
     return results;
 }
+*/
 
 vector<int> FoodLocations::ratingGreaterThan(int num) {
     vector<int> results;
