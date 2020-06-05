@@ -15,7 +15,13 @@ loadJSON();
 
 function query() {
     let priceSelect = document.getElementById("price");
-    for (var i = 0; i < locations.length; i++) {
-        var obj = locations[i];
+    let results = document.getElementById("results");
+    results.innerHTML = "";
+    for (let i = 0; i < locations.length; i++) {
+        let obj = locations[i];
+        let pl = obj["Price Level"] * 10;
+        if (pl <= priceSelect.value) {
+            results.innerHTML += "<p>" + obj["Place Name"] + "</p>"
+        }
     }
 }
