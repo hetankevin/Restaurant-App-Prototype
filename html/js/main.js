@@ -15,5 +15,7 @@ loadJSON();
 
 function query() {
     let priceSelect = document.getElementById("price");
-    
+    for (var i = 0; i < locations.length; i++) {
+        var obj = locations[i];
+    }
 }
