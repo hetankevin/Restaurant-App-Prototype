@@ -9,7 +9,7 @@ final_data = []
 coordinates = ['42.2808,-83.7430']
 keywords = ['restaurant']
 radius = '1000'
-api_key = '' #insert your Places API
+api_key = 'AIzaSyCjJLkTKGdauHGUkzoeEoyS0ZoD4wUnlx8' #insert your Places API
 
 for coordinate in coordinates:
     for keyword in keywords:
