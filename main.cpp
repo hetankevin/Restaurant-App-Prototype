@@ -20,35 +20,30 @@
 #include <vector>
 
 #include "FoodLocations.h"
-#include "csvstream.h"
+#include "json.hpp"
 
+using nlohmann::json;
 using namespace std;
-
-csvstream &operator>>(csvstream &cs, FoodPlace &f) {
-    string str;
-    cs >> str; // index
-    cs >> f.name;
-    cs >> str >> str >> str; // id, lat, long
-    cs >> str; // rating
-    f.rating = 10 * stod(str);
-    // TODO: Types, Price
-    return cs;
-}
 
 int main(int argc, char *argv[]) {
 
     string filename;
     cout << "Enter a filename" << '\n';
     cin >> filename;
-    csvstream ifs(filename);
+    ifstream ifs(filename);
+    if (!ifs.is_open()) {
+        assert(false);
+    }
 
     FoodLocations locs;
 
     string name, type, rating, price, dineIn, takeOut;
 
-    FoodPlace f;
+    json j;
     
-    while (ifs >> f) locs.addPlace(f);
+    while (ifs >> j) {
+        locs.addPlace(FoodPlace(j["Place Name"], j["Types"], j["Ratings"], (int) ((double) j["Price Level"] * 10), true, false));
+    }
 
     cout << "What's your budget? Enter up to 4 $" << '\n';
     string budget;
@@ -64,7 +59,7 @@ int main(int argc, char *argv[]) {
         cout << "Suggested location: " << '\n';
         FoodPlace loc = locs[pltet[idx]];
         cout << loc.name << '\n';
-        cout << "- " << loc.type;
+        cout << "- " << loc.types[0];
         if (loc.dine_in) cout << "- Dine in" << '\n';
         if (loc.take_out) cout << "- Take out" << '\n';
         cout << "- Rating: " << loc.rating / 10 << "." << loc.rating % 10 << '\n';
