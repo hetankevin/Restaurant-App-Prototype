@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/danlliu/stunning-potato/issues"
   },
-  "homepage": "https://github.com/danlliu/stunning-potato#readme"
+  "homepage": "https://github.com/danlliu/stunning-potato#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
