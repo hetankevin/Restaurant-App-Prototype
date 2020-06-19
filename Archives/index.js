@@ -1,8 +1,12 @@
 const express = require('express');
 const path = require('path');
+const socketio = require('socket.io');
+const http = require('http')
 
 const app = express();
-const port = 3000;
+const server = http.Server(app);
+const io = socketio(server);
+const port = 8888;
 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, './views'));
@@ -12,6 +16,6 @@ app.get("/", (request, response) => {
     response.render('html/index', {stuff: ['a', 'b', 'c']});
 });
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`Express on port ${port}`);
 });
