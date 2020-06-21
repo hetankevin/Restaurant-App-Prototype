@@ -1,8 +1,12 @@
 extends layout
-
+<script src="/socket.io/socket.io.js"></script>
+<script>
+const socket = io('http://localhost');
+</script>
 block content
   h1= title
   p Welcome to #{title}
+  p You are user #{user}
   ul
     each x in places
       li= x["Place Name"]
