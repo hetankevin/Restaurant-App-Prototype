@@ -8,7 +8,7 @@
     <style>
         form {
             padding: 20px;
-            position: relative;
+            position: fixed;
             bottom: 0;
             width: 100%;
             padding-right: 50px;
@@ -28,7 +28,7 @@
     </style>
 </head>
 <body>
-<div class="content-fluid">
+<div class="container-fluid">
     <div class="row">
         <ul id="messages"></ul>
     </div>
@@ -38,8 +38,8 @@
                 <div class="input-group">
                     <input id="m" autocomplete="off" type="text" class="form-control" placeholder="Message..." aria-label="Message...">
                     <span class="input-group-btn">
-                <button class="btn btn-secondary" type="submit">Send</button>
-              </span>
+                    <button class="btn btn-secondary" type="submit">Send</button>
+                  </span>
                 </div>
             </form>
         </div>
