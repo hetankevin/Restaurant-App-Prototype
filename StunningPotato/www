@@ -41,14 +41,14 @@ io.on('connection', function(socket) {
       userIndex = i;
     }
   }
-
   socket.emit('user-number', userIndex);
   if (userIndex == -1) return;
-
   connections[userIndex] = socket;
-
   socket.broadcast.emit('user-connect', userIndex);
+
 })
+
+
 
 /**
  * Normalize a port into a number, string, or false.
