@@ -1,11 +1,11 @@
 
 var express = require('express');
 var router = express.Router();
-var fs = require('fs');
+var path = require('path');
 
 /* GET home page. */
 router.get('/', function(req, res) {
-  res.sendFile(path.join(__dirname + '/index.html'));
+  res.sendFile(path.join(__dirname + '/../views/index.html'));
 });
 
 module.exports = router;
