@@ -36,6 +36,7 @@ console.log("Listening on port", port);
 
 var usernames = {};
 var rooms = [];
+var id = 0;
 
 io.on('connection', function(socket) {
   /*
@@ -52,14 +53,66 @@ io.on('connection', function(socket) {
   socket.broadcast.emit('user-connect', userIndex);
   */
 
+
+  //0. Add user
+  socket.on('addUser', function(username) {
+    socket.username = username;
+    usernames[username] = username;
+    socket.emit('updateChat', 'SERVER',
+        'Welcome! Please either create or join a room.');
+  });
+
   //1. Add user w/ new room
-  //socket.
+  socket.on('addUserNewRoom', function() {
+    var username = socket.username;
+    var room = 'room' + id++;
+    socket.room = room;
+    rooms.push({name: room, open: true});
+    socket.join(room);
+    socket.emit('updateChat',
+        'SERVER', 'you have connected to ' + room);
+    socket.broadcast.to(room).emit('updateChat',
+        'SERVER', username + ' has connected to this room');
+    //superfluous, maybe
+    socket.emit('updateRooms', rooms, room);
+  });
 
   //2. Add user to existing room
+  socket.on('addUserOldRoom', function(roomID) {
+    var room = 'room' + roomID;
+    if (!rooms[roomID].open) {
+      socket.emit('updateChat',
+          'SERVER', 'you have failed to join ' + room);
+      return;
+    }
+    var username = socket.username;
+    var room = 'room' + roomID;
+    socket.room = room;
+    socket.join(room);
+    socket.emit('updateChat',
+        'SERVER', 'you have connected to ' + room);
+    socket.broadcast.to(room).emit('updateChat',
+        'SERVER', username + ' has connected to this room');
+    //superfluous, maybe
+    socket.emit('updateRooms', rooms, room);
+  });
 
   //3. Activate room, room can no longer be joined
+  socket.on('activateRoom', function() {
+    /** @namespace socket.room **/
+    var room = socket.room;
+    var roomID = parseInt(room.substr(4));
+    rooms[roomID].open = false;
+    socket.broadcast.to(room).emit('updateChat',
+        'SERVER', 'This room is now closed. Happy browsing!');
+  });
 
   //4. Disconnect
+  socket.on('disconnect', function() {
+    delete usernames[socket.username];
+    socket.broadcast.emit('updateChat',
+        'SERVER', socket.username + ' has disconnected.');
+  });
 })
 
 
