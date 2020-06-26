@@ -34,18 +34,32 @@ server.on('listening', onListening);
 
 console.log("Listening on port", port);
 
+var usernames = {};
+var rooms = [];
+
 io.on('connection', function(socket) {
+  /*
   let userIndex = -1;
   for (const i in connections) {
     if (connections[i] == null) {
       userIndex = i;
+      break;
     }
   }
   socket.emit('user-number', userIndex);
   if (userIndex == -1) return;
   connections[userIndex] = socket;
   socket.broadcast.emit('user-connect', userIndex);
+  */
 
+  //1. Add user w/ new room
+  //socket.
+
+  //2. Add user to existing room
+
+  //3. Activate room, room can no longer be joined
+
+  //4. Disconnect
 })
 
 
