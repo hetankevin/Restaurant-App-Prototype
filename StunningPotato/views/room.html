@@ -60,7 +60,7 @@
     });
 
     socket.on('connect', () => {
-        // emiting to everybody
+        // emitting to everybody
         socket.emit('join', { room: room });
     })
 

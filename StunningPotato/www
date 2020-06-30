@@ -113,6 +113,8 @@ io.on('connection', function(socket) {
     socket.broadcast.emit('updateChat',
         'SERVER', socket.username + ' has disconnected.');
   });
+
+
 })
 
 
