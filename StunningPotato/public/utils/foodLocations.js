@@ -11,8 +11,8 @@ class foodLocations {
     addPlace(place) {
         this.places.push(place);
         this.nameLookup[place.name] = this.places.size() - 1;
-        for (let i = 0; i < fp.types.size(); ++i) {
-            this.typeLookup[fp.types[i]].push(this.places.size() - 1);
+        for (let i = 0; i < place.types.size(); ++i) {
+            this.typeLookup[place.types[i]].push(this.places.size() - 1);
         }
     }
 
@@ -39,8 +39,8 @@ class foodLocations {
                 p.push(this.priceLookup[i]);
             }
         }
-        p.sort((a, b) =>
-        (this.places[b].rating < this.places[a].rating));
+        p.sort(function(a, b) { return
+        (this.places[b].rating < this.places[a].rating)});
         return p;
     }
 
