@@ -35,8 +35,13 @@ class foodLocations {
     priceLTEqualTo(num) {
         var p = [];
         for (let i = num - 1; i >= 0; --i) {
-
+            for (let j = 0; j < this.priceLookup[i].size(); ++j) {
+                p.push(this.priceLookup[i]);
+            }
         }
+        p.sort((a, b) =>
+        (this.places[b].rating < this.places[a].rating));
+        return p;
     }
 
 }
