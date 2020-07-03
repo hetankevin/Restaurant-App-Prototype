@@ -1,10 +1,19 @@
 #!/usr/bin/env node
 
+let roomIdToName = {};
+let peopleInRoom = {};
+let peopleIDUsername = {};
+let peopleIDSocket = {};
+let roomBudget = 1;
+let pltet = [];
+let idx = 0;
+let responses = [];
 /**
  * Module dependencies.
  */
 
-var app = require('./app');
+var express = require('express');
+var app = express();
 var debug = require('debug')('stunningpotato:server');
 var http = require('http');
 var socketio = require('socket.io');
@@ -23,10 +32,19 @@ app.set('port', port);
 var server = http.createServer(app);
 var io = socketio(server);
 
+app.get('/:room', (req, res) => {
+  console.log(req.params.room);
+  console.log(roomIdToName);
+  if (roomIdToName[req.params.room] == null) {
+    res.render('noroom.pug', {roomId: req.params.room});
+  } else {
+    res.render('room.pug', {roomName: roomIdToName[req.params.room], roomId: req.params.room});
+  }
+});
+
 /**
  * Listen on provided port, on all network interfaces.
  */
-const connections = [null, null];
 
 server.listen(port);
 server.on('error', onError);
@@ -34,84 +52,122 @@ server.on('listening', onListening);
 
 console.log("Listening on port", port);
 
-var usernames = {};
-var rooms = [];
-var id = 0;
+var crypto = require('crypto');
+
+function generateUserID() {
+  let userid;
+  do {
+    userid = crypto.randomBytes(2).toString("hex");
+  } while (peopleIDUsername[userid] != null);
+
+  //let randomCharacter = '1' // Chosen by random number generator, guaranteed to be random.
+  return userid;
+}
+
+//load in data
 
 io.on('connection', function(socket) {
-  /*
-  let userIndex = -1;
-  for (const i in connections) {
-    if (connections[i] == null) {
-      userIndex = i;
-      break;
-    }
-  }
-  socket.emit('user-number', userIndex);
-  if (userIndex == -1) return;
-  connections[userIndex] = socket;
-  socket.broadcast.emit('user-connect', userIndex);
-  */
 
+  let userid;
+  let room = null;
+  let currentpage = 0;
+  var locs = new FoodLocations(socket);
 
-  //0. Add user
-  socket.on('addUser', function(username) {
-    socket.username = username;
-    usernames[username] = username;
-    socket.emit('updateChat', 'SERVER',
-        'Welcome! Please either create or join a room.');
+  socket.on('need user id', () => {
+    socket.emit('user id', generateUserID());
   });
 
-  //1. Add user w/ new room
-  socket.on('addUserNewRoom', function() {
-    var username = socket.username;
-    var room = 'room' + id++;
-    socket.room = room;
-    rooms.push({name: room, open: true});
-    socket.join(room);
-    socket.emit('updateChat',
-        'SERVER', 'you have connected to ' + room);
-    socket.broadcast.to(room).emit('updateChat',
-        'SERVER', username + ' has connected to this room');
-    //superfluous, maybe
-    socket.emit('updateRooms', rooms, room);
+  socket.on('register', (data) => {
+    peopleIDUsername[data.id] = data.username;
+    userid = data.id;
+    console.log("User id is now", userid);
   });
-
-  //2. Add user to existing room
-  socket.on('addUserOldRoom', function(roomID) {
-    var room = 'room' + roomID;
-    if (!rooms[roomID].open) {
-      socket.emit('updateChat',
-          'SERVER', 'you have failed to join ' + room);
+  // index.html
+  socket.on('createroom', (data) => {
+    if (roomIdToName[data.roomid] != null) {
+      socket.emit('roomexists');
       return;
     }
-    var username = socket.username;
-    var room = 'room' + roomID;
-    socket.room = room;
-    socket.join(room);
-    socket.emit('updateChat',
-        'SERVER', 'you have connected to ' + room);
-    socket.broadcast.to(room).emit('updateChat',
-        'SERVER', username + ' has connected to this room');
-    //superfluous, maybe
-    socket.emit('updateRooms', rooms, room);
+    roomIdToName[data.roomid] = data.roomname;
+    peopleInRoom[data.roomid] = Array(0);
+    socket.emit('roomcreated');
   });
 
-  //3. Activate room, room can no longer be joined
-  socket.on('activateRoom', function() {
-    /** @namespace socket.room **/
-    var room = socket.room;
-    var roomID = parseInt(room.substr(4));
-    rooms[roomID].open = false;
-    socket.broadcast.to(room).emit('updateChat',
-        'SERVER', 'This room is now closed. Happy browsing!');
+  socket.on('joinroom', (data) => {
+    if (roomIdToName[data.roomid] == null) {
+      socket.emit('roomdne');
+      return;
+    }
+    socket.emit('roomjoinable');
+  })
+
+  // room_socket.js
+  socket.on('join', (data) => {
+    currentpage = 1;
+    userid = data.id;
+    socket.join(data.room, () => {
+      room = data.room;
+      peopleInRoom[data.room].push({id: data.id, username: data.username});
+      io.to(data.room).emit('user joined', {id: data.id, username: data.username, people: peopleInRoom[data.room]});
+    });
   });
 
-  //4. Disconnect
-  socket.on('disconnect', function() {
-    delete usernames[socket.username];
-    socket.broadcast.emit('updateChat',
-        'SERVER', socket.username + ' has disconnected.');
+  socket.on('message', (data) => {
+    io.to(data.room).emit('message', {id: data.id, username: data.username, message: data.message});
+  });
+
+  socket.on('bye', (data) => {
+    socket.leave(data.room);
+    room = null;
+    peopleInRoom[data.room] = peopleInRoom[data.room].filter((x) => x.id !== data.id);
+    if (peopleInRoom[data.room].length != 0) {
+      io.to(data.room).emit('user left', {id: data.id, username: data.username, people: peopleInRoom[data.room]});
+    } else {
+      peopleInRoom[data.room] = null;
+      roomIdToName[data.room] = null;
+    }
+    currentpage = 0;
+  });
+
+  socket.on('disconnecting', () => {
+    if (currentpage === 0) {
+      return;
+    }
+    peopleInRoom[room] = peopleInRoom[room].filter((x) => x.id !== userid);
+    if (peopleInRoom[room].length != 0) {
+      io.to(room).emit('user left', {id: userid, username: peopleIDUsername[userid], people: peopleInRoom[room]});
+    } else {
+      peopleInRoom[room] = null;
+      roomIdToName[room] = null;
+    }
+    peopleIDUsername[userid] = null;
+    room = null;
+  });
+
+  function sendRestaurant() {
+    let loc = locs[pltet[idx]];
+    let rtg = loc.rating/10 + '.' + loc.rating%10;
+    let budg = '';
+    for(let i = 0; i < roomBudget.size(); ++i) budg += '$';
+    io.to(room).emit('restaurant', {n: loc.name, r: rtg, b : budg});
+  }
+
+  socket.on('budget', function(bud) {
+    if (bud.size() > roomBudget) {
+      roomBudget = bud.size();
+    }
+    pltet = locs.priceLTEqualTo(roomBudget);
+    responses.push(bud);
+    if (responses.size() == peopleInRoom.size()){
+      responses.clear();
+      sendRestaurant();
+    }
+  });
+
+  socket.on('responding', function(response) {
+    //if received no, sendFailure, sendRestaurant, return
+    //check for all responses, if not all, return
+    //else, endGame
   });
 
 

@@ -1,4 +1,4 @@
-class foodLocations {
+class FoodLocations {
     constructor(socket) {
         this.socket = socket;
         this.places = [];
