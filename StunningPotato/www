@@ -91,6 +91,12 @@ io.on('connection', function(socket) {
     userid = data.id;
     console.log("User id is now", userid);
   });
+
+  socket.on('logout', (id) => {
+    peopleIDUsername[id] = null;
+    peopleIDSocket[id] = null;
+  });
+
   // index.html
   socket.on('createroom', (data) => {
     if (roomIdToName[data.roomid] != null) {
