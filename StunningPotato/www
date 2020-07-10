@@ -164,10 +164,22 @@ io.on('connection', function(socket) {
     }
   });
 
+
   socket.on('responding', function(response) {
     //if received no, sendFailure, sendRestaurant, return
-    //check for all responses, if not all, return
-    //else, endGame
+    if (response == 'no') {
+      responses.clear();
+      io.to(room).emit('failure');
+      sendRestaurant();
+      ++idx;
+      idx %= locs.size();
+    } //check for all responses, if not all, return
+    else if (responses.size() + 1 != peopleInRoom.size()) {
+      responses.push(response);
+    }
+    else {
+      io.to(room).emit('endGame', locs[pltet[idx]].name);
+    }
   });
 
 
