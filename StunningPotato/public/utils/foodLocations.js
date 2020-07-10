@@ -47,3 +47,7 @@ class FoodLocations {
     }
 
 }
+
+module.exports = {
+    FoodLocations: FoodLocations
+}
