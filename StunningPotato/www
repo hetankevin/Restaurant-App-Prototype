@@ -18,6 +18,10 @@ var debug = require('debug')('stunningpotato:server');
 var http = require('http');
 var socketio = require('socket.io');
 var FoodLocations = require('./public/utils/foodLocations.js')
+var path = require('path')
+
+var cookieParser = require('cookie-parser');
+var logger = require('morgan');
 
 /**
  * Get port from environment and store in Express.
@@ -41,7 +45,7 @@ app.get('/:room', (req, res) => {
   console.log(req.params.room);
   console.log(roomIdToName);
   if (roomIdToName[req.params.room] == null) {
-    res.sendFile(path.join(__dirname, 'noroom.html'));
+    res.sendFile(path.join(__dirname, '/../views/noroom.html'));
   } else {
     res.render('room.pug', {roomName: roomIdToName[req.params.room], roomId: req.params.room});
   }
