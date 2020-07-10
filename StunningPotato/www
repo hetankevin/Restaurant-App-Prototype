@@ -33,6 +33,10 @@ app.set('port', port);
 var server = http.createServer(app);
 var io = socketio(server);
 
+var indexRouter = require('./routes/index');
+
+app.use('/', indexRouter);
+
 app.get('/:room', (req, res) => {
   console.log(req.params.room);
   console.log(roomIdToName);
