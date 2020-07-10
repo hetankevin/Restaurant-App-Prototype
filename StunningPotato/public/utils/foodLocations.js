@@ -5,7 +5,9 @@ class FoodLocations {
         this.nameLookup = {};
         this.typeLookup = {};
         this.ratingLookup = [];
+        for (let i = 0; i < 41; ++i) this.ratingLookup.push([]);
         this.priceLookup = [];
+        for (let i = 0; i < 4; ++i) this.ratingLookup.push([]);
     }
 
     addPlace(place) {
