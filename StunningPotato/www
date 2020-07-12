@@ -4,6 +4,7 @@ let roomIdToName = {};
 let peopleInRoom = {};
 let peopleIDUsername = {};
 let peopleIDSocket = {};
+let roomData = {};
 let roomBudget = 1;
 let pltet = [];
 let idx = 0;
@@ -105,11 +106,14 @@ io.on('connection', function(socket) {
     }
     roomIdToName[data.roomid] = data.roomname;
     peopleInRoom[data.roomid] = Array(0);
+    roomData[data.roomid] = {
+      closed: false
+    };
     socket.emit('roomcreated');
   });
 
   socket.on('joinroom', (data) => {
-    if (roomIdToName[data.roomid] == null) {
+    if (roomIdToName[data.roomid] == null || roomData[data.roomid].closed) {
       socket.emit('roomdne');
       return;
     }
@@ -157,6 +161,14 @@ io.on('connection', function(socket) {
     }
     peopleIDUsername[userid] = null;
     room = null;
+  });
+
+  socket.on('roomclosed', (data) => {
+    if (roomData[data.room].closed) {
+      return;
+    }
+    roomData[data.room].closed = true;
+    io.to(data.room).emit('room closed', {id: data.id, username: data.username});
   });
 
   function sendRestaurant() {
