@@ -82,16 +82,39 @@ socket.on('room closed', (data) => {
    messageUL.append(`<li class="alert alert-warning"><b>${data.username} ${data.id === userid ? "&lt;me&gt;" : ""}</b> <span class="badge badge-secondary">@${data.id}</span> closed the room</li>`);
 });
 
+let uno = () => {socket.emit('budget', "$"); $('#budget').remove();};
+let dos = () => {socket.emit('budget', "$$"); $('#budget').remove();};
+let tres = () => {socket.emit('budget', "$$$"); $('#budget').remove();};
+let richrichrich = () => {socket.emit('budget', "$$$$"); $('#budget').remove();};
+
+socket.on('budget', (data) => {
+    messageUL.append(`<li id="budget">
+    <div class="card" width="18rem">
+        <div class="card-body">
+            <h5 class="card-title">Budget Limit</h5>
+            <p>...</p>
+            <div class="row w-100">
+               <button type="button" onclick="uno()" class="btn btn-outline-primary">$</button>
+               <button type="button" onclick="dos()" class="btn btn-outline-primary">$$</button>
+               <button type="button" onclick="tres()" class="btn btn-outline-primary">$$$</button>
+               <button type="button" onclick="richrichrich()" class="btn btn-outline-primary">$$$$</button>
+            </div>
+        </div>
+    </div>
+    </li>`);
+});
+
+let nay = () => {
+    socket.emit('nay', {id: userid, room: roomID, username: username});
+};
+let may = () => {
+    socket.emit('may', {id: userid, room: roomID, username: username});
+};
+let aye = () => {
+    socket.emit('aye', {id: userid, room: roomID, username: username});
+};
+
 socket.on('restaurant', (data) => {
-    let nay = () => {
-        socket.emit('nay', {id: userid, room: roomID, username: username});
-    };
-    let may = () => {
-        socket.emit('may', {id: userid, room: roomID, username: username});
-    };
-    let aye = () => {
-        socket.emit('aye', {id: userid, room: roomID, username: username});
-    };
     messageUL.append(`<li class="alert alert-secondary"><b>Server</b> suggested ${data.name}. Would you like to go?</li>`);
     messageUL.append(`<li>
     <div class="card" width="18rem">
@@ -100,9 +123,9 @@ socket.on('restaurant', (data) => {
             <h5 class="card-title">${data.name}</h5>
             <p>Description: yummy food</p>
             <div class="row w-100">
-                <button type="button" onclick="nay()" class="btn btn-outline-danger"></button>
-               <button type="button" onclick="may()" class="btn btn-outline-warning"></button>
-               <button type="button" onclick="aye()" class="btn btn-outline-success"></button>
+                <button type="button" onclick="nay()" class="btn btn-outline-danger">No</button>
+               <button type="button" onclick="may()" class="btn btn-outline-warning">Maybe</button>
+               <button type="button" onclick="aye()" class="btn btn-outline-success">Yea</button>
             </div>
         </div>
     </div>

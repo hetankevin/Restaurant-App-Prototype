@@ -169,6 +169,7 @@ io.on('connection', function(socket) {
     }
     roomData[data.room].closed = true;
     io.to(data.room).emit('room closed', {id: data.id, username: data.username});
+    io.to(data.room).emit('budget');
   });
 
   function sendRestaurant() {
@@ -210,7 +211,7 @@ io.on('connection', function(socket) {
   });
 
 
-})
+});
 
 
 
