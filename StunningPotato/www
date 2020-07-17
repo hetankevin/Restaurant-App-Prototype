@@ -176,17 +176,17 @@ io.on('connection', function(socket) {
     let loc = locs[pltet[idx]];
     let rtg = loc.rating/10 + '.' + loc.rating%10;
     let budg = '';
-    for(let i = 0; i < roomBudget.size(); ++i) budg += '$';
+    for(let i = 0; i < roomBudget.length; ++i) budg += '$';
     io.to(room).emit('restaurant', {n: loc.name, r: rtg, b : budg});
   }
 
   socket.on('budget', function(bud) {
-    if (bud.size() > roomBudget) {
-      roomBudget = bud.size();
+    if (bud.length > roomBudget) {
+      roomBudget = bud.length;
     }
     pltet = locs.priceLTEqualTo(roomBudget);
     responses.push(bud);
-    if (responses.size() == peopleInRoom.size()){
+    if (responses.length == peopleInRoom.length){
       responses.clear();
       sendRestaurant();
     }
@@ -200,9 +200,9 @@ io.on('connection', function(socket) {
       io.to(room).emit('failure');
       sendRestaurant();
       ++idx;
-      idx %= locs.size();
+      idx %= locs.length;
     } //check for all responses, if not all, return
-    else if (responses.size() + 1 != peopleInRoom.size()) {
+    else if (responses.length + 1 != peopleInRoom.length) {
       responses.push(response);
     }
     else {

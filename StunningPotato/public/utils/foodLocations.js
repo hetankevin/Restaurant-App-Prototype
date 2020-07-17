@@ -7,14 +7,14 @@ class FoodLocations {
         this.ratingLookup = [];
         for (let i = 0; i < 41; ++i) this.ratingLookup.push([]);
         this.priceLookup = [];
-        for (let i = 0; i < 4; ++i) this.ratingLookup.push([]);
+        for (let i = 0; i < 4; ++i) this.priceLookup.push([]);
     }
 
     addPlace(place) {
         this.places.push(place);
-        this.nameLookup[place.name] = this.places.size() - 1;
-        for (let i = 0; i < place.types.size(); ++i) {
-            this.typeLookup[place.types[i]].push(this.places.size() - 1);
+        this.nameLookup[place.name] = this.places.length - 1;
+        for (let i = 0; i < place.types.length; ++i) {
+            this.typeLookup[place.types[i]].push(this.places.length - 1);
         }
     }
 
@@ -26,7 +26,7 @@ class FoodLocations {
         var results = [];
         let look = 40;
         while (look + 10 >= num) {
-            for (let i = 0; i < this.ratingLookup[look].size(); ++i) {
+            for (let i = 0; i < this.ratingLookup[look].length; ++i) {
                 results.push(this.ratingLookup[look]);
             }
             --look;
@@ -37,7 +37,7 @@ class FoodLocations {
     priceLTEqualTo(num) {
         var p = [];
         for (let i = num - 1; i >= 0; --i) {
-            for (let j = 0; j < this.priceLookup[i].size(); ++j) {
+            for (let j = 0; j < this.priceLookup[i].length; ++j) {
                 p.push(this.priceLookup[i]);
             }
         }
