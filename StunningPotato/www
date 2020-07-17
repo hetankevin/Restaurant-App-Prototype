@@ -184,10 +184,13 @@ io.on('connection', function(socket) {
     if (bud.length > roomBudget) {
       roomBudget = bud.length;
     }
-    pltet = locs.priceLTEqualTo(roomBudget);
     responses.push(bud);
     if (responses.length == peopleInRoom.length){
       responses.clear();
+
+      //add food places
+
+      pltet = locs.priceLTEqualTo(roomBudget);
       sendRestaurant();
     }
   });
