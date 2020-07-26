@@ -149,3 +149,7 @@ socket.on('restaurant', (data) => {
     </div>
     </li>`);
 });
+
+socket.on('endGame', (place) => {
+    messageUL.append(`<li class="alert alert-success">Congratulations! You're going to <span>${place.name}</span></li>`);
+});
