@@ -187,12 +187,7 @@ io.on('connection', function(socket) {
   });
 
   function sendRestaurant() {
-    let loc = pltet[idx];
-    //let loc = {"rating": 25};
-    let rtg = `${Math.floor(loc.rating/10)}.${loc.rating%10}`;
-    let budg = "";
-    for(let i = 0; i < roomBudget; ++i) budg += '$';
-    io.to(room).emit('restaurant', {n: loc.name, r: rtg, b : budg});
+    io.to(room).emit('restaurant', pltet[idx]);
   }
 
   socket.on('budget', function(bud) {
