@@ -110,13 +110,13 @@ socket.on('budget', (data) => {
 });
 
 let nay = () => {
-    socket.emit('nay', {id: userid, room: roomID, username: username});
+    socket.emit('responding', 'nay');
 };
 let may = () => {
-    socket.emit('may', {id: userid, room: roomID, username: username});
+    socket.emit('responding', 'may');
 };
 let aye = () => {
-    socket.emit('aye', {id: userid, room: roomID, username: username});
+    socket.emit('responding', 'aye');
 };
 
 socket.on('restaurant', (data) => {

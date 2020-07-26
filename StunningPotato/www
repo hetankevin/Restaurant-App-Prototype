@@ -204,7 +204,7 @@ io.on('connection', function(socket) {
 
   socket.on('responding', function(response) {
     //if received no, sendFailure, sendRestaurant, return
-    if (response == 'no') {
+    if (response == 'nay') {
       responses.clear();
       io.to(room).emit('failure');
       sendRestaurant();
