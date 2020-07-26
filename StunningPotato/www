@@ -186,10 +186,10 @@ io.on('connection', function(socket) {
       responses.sort();
       if (responses.length % 2 === 0) {
         roomBudget = (responses[Math.floor(responses.length/2)].length
-            + Math.floor(responses[Math.floor(responses.length/2) + 1])/2);
+            + responses[Math.floor(responses.length/2) + 1].length)/2;
       }
       else {
-        roomBudget = responses[Math.floor(responses.length/2)];
+        roomBudget = responses[Math.floor(responses.length/2)].length;
       }
       io.to(room).emit('roombudget', roomBudget);
       responses = [];
@@ -205,7 +205,7 @@ io.on('connection', function(socket) {
   socket.on('responding', function(response) {
     //if received no, sendFailure, sendRestaurant, return
     if (response == 'nay') {
-      responses.clear();
+      responses = [];
       io.to(room).emit('failure');
       sendRestaurant();
       ++idx;
@@ -215,7 +215,7 @@ io.on('connection', function(socket) {
       responses.push(response);
     }
     else {
-      io.to(room).emit('endGame', locs[pltet[idx]].name);
+      io.to(room).emit('endGame', locs[pltet[idx]]);
     }
   });
 
