@@ -11,17 +11,20 @@ class FoodLocations {
     }
 
     addPlace(place) {
-        this.places.push(place);
-        this.nameLookup[place.name] = this.places.length - 1;
         //for (let i = 0; i < place.types.length; ++i) {
             //this.typeLookup[place.types[i]].push(this.places.length - 1);
         //}
+        if (place.name == undefined || place.name == null) {
+            return;
+        }
         if (place.price == null) {
             place.price = 3;
         }
         if (place.rating == null) {
             place.rating = 1;
         }
+        this.places.push(place);
+        this.nameLookup[place.name] = this.places.length - 1;
         this.priceLookup[Math.floor(place.price) - 1].push(place);
         //this.ratingLookup[Math.floor(place.rating * 10) - 10].push(place);
     }

@@ -188,6 +188,8 @@ io.on('connection', function(socket) {
 
   function sendRestaurant() {
     io.to(room).emit('restaurant', pltet[idx]);
+    ++idx;
+    idx %= locs.places.length;
   }
 
   socket.on('budget', function(bud) {
@@ -216,8 +218,6 @@ io.on('connection', function(socket) {
       responses = [];
       io.to(room).emit('failure');
       sendRestaurant();
-      ++idx;
-      idx %= locs.length;
     } //check for all responses, if not all, return
     else if (responses.length + 1 != peopleInRoom.length) {
       responses.push(response);
