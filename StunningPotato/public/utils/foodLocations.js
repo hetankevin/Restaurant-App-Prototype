@@ -13,9 +13,9 @@ class FoodLocations {
     addPlace(place) {
         this.places.push(place);
         this.nameLookup[place.name] = this.places.length - 1;
-        for (let i = 0; i < place.types.length; ++i) {
-            this.typeLookup[place.types[i]].push(this.places.length - 1);
-        }
+        //for (let i = 0; i < place.types.length; ++i) {
+            //this.typeLookup[place.types[i]].push(this.places.length - 1);
+        //}
     }
 
     searchPlace(name) {

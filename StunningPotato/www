@@ -174,7 +174,7 @@ io.on('connection', function(socket) {
   });
 
   function sendRestaurant() {
-    let loc = {rating: 25};
+    let loc = pltet[idx];
     let rtg = `${Math.floor(loc.rating/10)}.${loc.rating%10}`;
     let budg = '';
     for(let i = 0; i < roomBudget; ++i) budg += '$';
@@ -241,7 +241,7 @@ io.on('connection', function(socket) {
       responses.push(response);
     }
     else {
-      io.to(room).emit('endGame', locs[pltet[idx]]);
+      io.to(room).emit('endGame', pltet[idx]);
     }
   });
 
