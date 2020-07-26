@@ -130,5 +130,4 @@ socket.on('restaurant', (data) => {
         </div>
     </div>
     </li>`);
-
 });
