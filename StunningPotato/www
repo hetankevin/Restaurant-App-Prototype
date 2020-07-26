@@ -173,10 +173,10 @@ io.on('connection', function(socket) {
   });
 
   function sendRestaurant() {
-    let loc = locs[pltet[idx]];
+    let loc = {rating: 25};
     let rtg = loc.rating/10 + '.' + loc.rating%10;
     let budg = '';
-    for(let i = 0; i < roomBudget.length; ++i) budg += '$';
+    for(let i = 0; i < roomBudget; ++i) budg += '$';
     io.to(room).emit('restaurant', {n: loc.name, r: rtg, b : budg});
   }
 

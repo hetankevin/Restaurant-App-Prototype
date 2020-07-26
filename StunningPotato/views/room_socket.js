@@ -83,11 +83,13 @@ socket.on('room closed', (data) => {
 });
 
 socket.on('roombudget', (budget) => {
+    console.log('budget');
     let bud = "";
-    for(let i = 0; i < budget.length; ++i) {
+    for(let i = 0; i < budget; ++i) {
         bud = bud + "$";
     }
-    messageUL.append(`<li>The room budget is <span>bud</span></li>`);
+    console.log(bud);
+    messageUL.append(`<li class="alert alert-success">The room budget is <span>${bud}</span></li>`);
 });
 
 let uno = () => {socket.emit('budget', "$"); $('#budget').remove();};
