@@ -111,17 +111,26 @@ socket.on('budget', (data) => {
 
 let nay = () => {
     socket.emit('responding', 'nay');
+    $('.replace').innerHTML = 'You said no';
+    $('.replace').classList.add('alert alert-danger');
+    $('.replace').classList.remove('replace');
 };
 let may = () => {
     socket.emit('responding', 'may');
+    $('.replace').innerHTML = 'You said no';
+    $('.replace').classList.add('alert alert-danger');
+    $('.replace').classList.remove('replace');
 };
 let aye = () => {
     socket.emit('responding', 'aye');
+    document.querySelector('.replace').innerHTML = 'You said no';
+    document.querySelector('.replace').classList.add('alert alert-danger');
+    document.querySelector('.replace').classList.remove('replace');
 };
 
 socket.on('restaurant', (data) => {
     messageUL.append(`<li class="alert alert-secondary"><b>Server</b> suggested ${data.name}. Would you like to go?</li>`);
-    messageUL.append(`<li>
+    messageUL.append(`<li class="replace">
     <div class="card" width="18rem">
         <img class="card-img-top" src="${data.imgsrc}" alt="FOOOOOODDDDDDDD">
         <div class="card-body">
