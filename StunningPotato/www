@@ -18,8 +18,9 @@ var app = express();
 var debug = require('debug')('stunningpotato:server');
 var http = require('http');
 var socketio = require('socket.io');
-var FoodLocations = require('./public/utils/foodLocations.js')
-var path = require('path')
+var FoodLocations = require('./public/utils/foodLocations.js');
+var path = require('path');
+var fs = require('fs');
 
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -180,6 +181,20 @@ io.on('connection', function(socket) {
     io.to(room).emit('restaurant', {n: loc.name, r: rtg, b : budg});
   }
 
+  function jsonReader(filePath, cb) {
+    fs.readFile(filePath, (err, fileData) => {
+      if (err) {
+        return cb && cb(err);
+      }
+      try {
+        const object = JSON.parse(fileData);
+        return cb && cb(null, object);
+      } catch(err) {
+        return cb && cb(err);
+      }
+    });
+  }
+
   socket.on('budget', function(bud) {
     responses.push(bud);
     if (responses.length == peopleInRoom[room].length){
@@ -195,6 +210,17 @@ io.on('connection', function(socket) {
       responses = [];
 
       //add food places
+      jsonReader('./public/annarbor.json', (err, foodplaces) => {
+        if (err) {
+          console.log(err);
+          return;
+        }
+        foodplaces.forEach(jsonPlace => {
+          let place = {"name": jsonPlace["Place Name"], "types": jsonPlace["Types"],
+                    "rating": jsonPlace["Ratings"], "price": jsonPlace["Price Level"]};
+          locs.addPlace(place);
+        });
+      });
 
       pltet = locs.priceLTEqualTo(roomBudget);
       sendRestaurant();
