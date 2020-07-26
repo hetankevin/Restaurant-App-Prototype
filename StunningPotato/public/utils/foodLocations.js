@@ -16,6 +16,14 @@ class FoodLocations {
         //for (let i = 0; i < place.types.length; ++i) {
             //this.typeLookup[place.types[i]].push(this.places.length - 1);
         //}
+        if (place.price == null) {
+            place.price = 3;
+        }
+        if (place.rating == null) {
+            place.rating = 1;
+        }
+        this.priceLookup[Math.floor(place.price) - 1].push(place);
+        //this.ratingLookup[Math.floor(place.rating * 10) - 10].push(place);
     }
 
     searchPlace(name) {
@@ -38,11 +46,11 @@ class FoodLocations {
         var p = [];
         for (let i = num - 1; i >= 0; --i) {
             for (let j = 0; j < this.priceLookup[i].length; ++j) {
-                p.push(this.priceLookup[i]);
+                p.push(this.priceLookup[i][j]);
             }
         }
         p.sort(function(a, b) { return
-        (this.places[b].rating < this.places[a].rating)});
+        (b.rating < a.rating)});
         return p;
     }
 

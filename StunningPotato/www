@@ -84,6 +84,19 @@ io.on('connection', function(socket) {
   let currentpage = 0;
   var locs = new FoodLocations.FoodLocations(socket);
 
+  //add food places
+  jsonReader('./public/annarbor.json', (err, foodplaces) => {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    foodplaces.forEach(jsonPlace => {
+      let place = {"name": jsonPlace["Place Name"], "types": jsonPlace["Types"],
+        "rating": jsonPlace["Ratings"], "price": jsonPlace["Price Level"]};
+      locs.addPlace(place);
+    });
+  });
+
   socket.on('need user id', () => {
     socket.emit('user id', generateUserID());
   });
@@ -175,24 +188,11 @@ io.on('connection', function(socket) {
 
   function sendRestaurant() {
     let loc = pltet[idx];
+    //let loc = {"rating": 25};
     let rtg = `${Math.floor(loc.rating/10)}.${loc.rating%10}`;
-    let budg = '';
+    let budg = "";
     for(let i = 0; i < roomBudget; ++i) budg += '$';
     io.to(room).emit('restaurant', {n: loc.name, r: rtg, b : budg});
-  }
-
-  function jsonReader(filePath, cb) {
-    fs.readFile(filePath, (err, fileData) => {
-      if (err) {
-        return cb && cb(err);
-      }
-      try {
-        const object = JSON.parse(fileData);
-        return cb && cb(null, object);
-      } catch(err) {
-        return cb && cb(err);
-      }
-    });
   }
 
   socket.on('budget', function(bud) {
@@ -208,19 +208,6 @@ io.on('connection', function(socket) {
       }
       io.to(room).emit('roombudget', roomBudget);
       responses = [];
-
-      //add food places
-      jsonReader('./public/annarbor.json', (err, foodplaces) => {
-        if (err) {
-          console.log(err);
-          return;
-        }
-        foodplaces.forEach(jsonPlace => {
-          let place = {"name": jsonPlace["Place Name"], "types": jsonPlace["Types"],
-                    "rating": jsonPlace["Ratings"], "price": jsonPlace["Price Level"]};
-          locs.addPlace(place);
-        });
-      });
 
       pltet = locs.priceLTEqualTo(roomBudget);
       sendRestaurant();
@@ -308,6 +295,20 @@ function onListening() {
     ? 'pipe ' + addr
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
+}
+
+function jsonReader(filePath, cb) {
+  fs.readFile(filePath, (err, fileData) => {
+    if (err) {
+      return cb && cb(err);
+    }
+    try {
+      const object = JSON.parse(fileData);
+      return cb && cb(null, object);
+    } catch(err) {
+      return cb && cb(err);
+    }
+  });
 }
 
 function onChoice(data) {
