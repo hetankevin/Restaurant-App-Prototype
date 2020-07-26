@@ -181,12 +181,18 @@ io.on('connection', function(socket) {
   }
 
   socket.on('budget', function(bud) {
-    if (bud.length > roomBudget) {
-      roomBudget = bud.length;
-    }
     responses.push(bud);
-    if (responses.length == peopleInRoom.length){
-      responses.clear();
+    if (responses.length == peopleInRoom[room].length){
+      responses.sort();
+      if (responses.length % 2 === 0) {
+        roomBudget = (responses[responses.length/2].length
+            + responses[responses.length/2 + 1])/2;
+      }
+      else {
+        roomBudget = responses[responses.length/2];
+      }
+      io.to(room).emit('roombudget', roomBudget);
+      responses = [];
 
       //add food places
 

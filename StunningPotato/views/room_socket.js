@@ -82,6 +82,14 @@ socket.on('room closed', (data) => {
    messageUL.append(`<li class="alert alert-warning"><b>${data.username} ${data.id === userid ? "&lt;me&gt;" : ""}</b> <span class="badge badge-secondary">@${data.id}</span> closed the room</li>`);
 });
 
+socket.on('roombudget', (budget) => {
+    let bud = "";
+    for(let i = 0; i < budget.length; ++i) {
+        bud = bud + "$";
+    }
+    messageUL.append(`<li The room budget is <span>bud</span></li>`);
+});
+
 let uno = () => {socket.emit('budget', "$"); $('#budget').remove();};
 let dos = () => {socket.emit('budget', "$$"); $('#budget').remove();};
 let tres = () => {socket.emit('budget', "$$$"); $('#budget').remove();};
