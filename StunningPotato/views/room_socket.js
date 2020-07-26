@@ -111,20 +111,20 @@ socket.on('budget', (data) => {
 
 let nay = () => {
     socket.emit('responding', 'nay');
-    $('.replace').innerHTML = 'You said no';
-    $('.replace').classList.add('alert alert-danger');
-    $('.replace').classList.remove('replace');
+    document.querySelector('.replace').innerHTML = 'You said no';
+    document.querySelector('.replace').classList.add('alert', 'alert-danger');
+    document.querySelector('.replace').classList.remove('replace');
 };
 let may = () => {
     socket.emit('responding', 'may');
-    $('.replace').innerHTML = 'You said no';
-    $('.replace').classList.add('alert alert-danger');
-    $('.replace').classList.remove('replace');
+    document.querySelector('.replace').innerHTML = 'You said maybe';
+    document.querySelector('.replace').classList.add('alert', 'alert-warning');
+    document.querySelector('.replace').classList.remove('replace');
 };
 let aye = () => {
     socket.emit('responding', 'aye');
-    document.querySelector('.replace').innerHTML = 'You said no';
-    document.querySelector('.replace').classList.add('alert alert-danger');
+    document.querySelector('.replace').innerHTML = 'You said yes';
+    document.querySelector('.replace').classList.add('alert', 'alert-success');
     document.querySelector('.replace').classList.remove('replace');
 };
 
