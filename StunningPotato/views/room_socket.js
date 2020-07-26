@@ -87,7 +87,7 @@ socket.on('roombudget', (budget) => {
     for(let i = 0; i < budget.length; ++i) {
         bud = bud + "$";
     }
-    messageUL.append(`<li The room budget is <span>bud</span></li>`);
+    messageUL.append(`<li>The room budget is <span>bud</span></li>`);
 });
 
 let uno = () => {socket.emit('budget', "$"); $('#budget').remove();};
