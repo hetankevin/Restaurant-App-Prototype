@@ -174,7 +174,7 @@ io.on('connection', function(socket) {
 
   function sendRestaurant() {
     let loc = {rating: 25};
-    let rtg = loc.rating/10 + '.' + loc.rating%10;
+    let rtg = `${Math.floor(loc.rating/10)}.${loc.rating%10}`;
     let budg = '';
     for(let i = 0; i < roomBudget; ++i) budg += '$';
     io.to(room).emit('restaurant', {n: loc.name, r: rtg, b : budg});
@@ -185,11 +185,11 @@ io.on('connection', function(socket) {
     if (responses.length == peopleInRoom[room].length){
       responses.sort();
       if (responses.length % 2 === 0) {
-        roomBudget = (responses[responses.length/2].length
-            + responses[responses.length/2 + 1])/2;
+        roomBudget = (responses[Math.floor(responses.length/2)].length
+            + Math.floor(responses[Math.floor(responses.length/2) + 1])/2);
       }
       else {
-        roomBudget = responses[responses.length/2];
+        roomBudget = responses[Math.floor(responses.length/2)];
       }
       io.to(room).emit('roombudget', roomBudget);
       responses = [];
