@@ -68,6 +68,8 @@ client.connect(err => {
 // data is array of objects
 
 function uploadToDatabase(data) {
-
+    const collection = client.db("Restaurants").collection("Restaurants");
+    data.forEach(element => collection.update(
+        filter= {"Place ID" : element["Place ID"]}, update=element, upsert=true));
 }
 
