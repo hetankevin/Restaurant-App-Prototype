@@ -219,11 +219,13 @@ io.on('connection', function(socket) {
       io.to(room).emit('failure');
       sendRestaurant();
     } //check for all responses, if not all, return
-    else if (responses.length + 1 != peopleInRoom.length) {
+    else if (responses.length + 1 <= peopleInRoom.length) {
       responses.push(response);
+      console.log("responses not done")
     }
     else {
-      io.to(room).emit('endGame', pltet[idx]);
+      io.to(room).emit('endGame', pltet[idx - 1]);
+      console.log("end")
     }
   });
 
